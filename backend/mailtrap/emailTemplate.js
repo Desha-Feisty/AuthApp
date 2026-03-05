@@ -26,9 +26,9 @@ export const VERIFICATION_EMAIL_TEMPLATE = `
   </div>
 </body>
 </html>
-\`;
+`;
 
-export const WELCOME_EMAIL_TEMPLATE = \`
+export const WELCOME_EMAIL_TEMPLATE = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +57,6 @@ export const WELCOME_EMAIL_TEMPLATE = \`
   </div>
 </body>
 </html>
-\`;
 `;
 
 export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
