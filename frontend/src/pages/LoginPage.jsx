@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Mail, Lock, Loader } from "lucide-react";
 import Input from "../components/input";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore.js";
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const handleLogin = (e) => {
+    const { login, error, isLoading } = useAuthStore();
+    const handleLogin = async (e) => {
         e.preventDefault();
+        await login(email, password);
     };
     return (
         <div className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
@@ -40,7 +42,7 @@ const LoginPage = () => {
                             Forgot password?
                         </Link>
                     </div>
-
+                    {error && <p className="text-red-500 mb-4">{error}</p>}
                     <button
                         type="submit"
                         disabled={isLoading}

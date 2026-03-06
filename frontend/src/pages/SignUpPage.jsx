@@ -2,14 +2,23 @@ import { Loader, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 
 import Input from "../components/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
+import { useAuthStore } from "../store/authStore.js";
 const SignUpPage = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const handleSignUp = (e) => {
+    const { signup, error, isLoading } = useAuthStore();
+    const navigate = useNavigate();
+    const handleSignUp = async (e) => {
         e.preventDefault();
+        try {
+            await signup(email, password, name);
+            navigate("/verify-email");
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div
@@ -17,7 +26,7 @@ const SignUpPage = () => {
 			overflow-hidden"
         >
             <div className="p-8">
-                <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
+                <h2 className="text-3xl font-bold mb-6 text-center bg-linear-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
                     Create Account
                 </h2>
                 <form onSubmit={handleSignUp}>
@@ -42,12 +51,25 @@ const SignUpPage = () => {
                         placeholder="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    {error && (
+                        <p className="text-red-500 font-semibold mt-2">
+                            {error}
+                        </p>
+                    )}
+
                     <PasswordStrengthMeter password={password} />
                     <button
                         className="w-full bg-linear-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-2 mt-4 rounded-lg transition duration-200"
                         type="submit"
                     >
-                        Sign Up
+                        {isLoading ? (
+                            <Loader
+                                className=" animate-spin mx-auto"
+                                size={24}
+                            />
+                        ) : (
+                            "Sign Up"
+                        )}
                     </button>
                 </form>
             </div>
