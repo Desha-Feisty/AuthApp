@@ -137,10 +137,13 @@ export const forgotPassword = async (req, res) => {
             Date.now() + 1 * 60 * 60 * 1000, // 1 hour
         );
         await user.save();
-        await sendResetPasswordEmail(
-            user.email,
-            `${process.env.CLIENT_URL}/${resetPasswordToken}`,
-        );
+        const resetPasswordURL = `${process.env.CLIENT_URL}/reset-password/${resetPasswordToken}`;
+        await sendResetPasswordEmail(user.email, resetPasswordURL);
+
+        res.status(200).json({
+            success: true,
+            message: "Password reset link sent to your email",
+        });
     } catch (error) {
         console.error("Forgot password error:", error);
         return res.status(500).json({

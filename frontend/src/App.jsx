@@ -3,6 +3,8 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import Dashboard from "./pages/Dashboard.jsx";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore.js";
 import { useEffect } from "react";
@@ -64,6 +66,22 @@ const App = () => {
                     path="/verify-email"
                     element={<EmailVerificationPage />}
                 ></Route>
+                <Route
+                    path="/forgot-password"
+                    element={
+                        <RedirectAuthenticatedUser>
+                            <ForgotPasswordPage />
+                        </RedirectAuthenticatedUser>
+                    }
+                ></Route>
+                <Route
+                    path="/reset-password/:token"
+                    element={
+                        <RedirectAuthenticatedUser>
+                            <ResetPasswordPage />
+                        </RedirectAuthenticatedUser>
+                    }
+                />
             </Routes>
             <Toaster />
         </div>
